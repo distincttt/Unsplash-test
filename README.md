@@ -12,4 +12,4 @@ bun run dev
 
 ## Link to deployed app
 
-https://forest-app-ecru.vercel.app/
+unsplash-test-iota.vercel.app
