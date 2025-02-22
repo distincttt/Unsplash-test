@@ -18,6 +18,9 @@ export const MainWrapper = styled.main<{ $p: string }>`
    padding: ${({ $p }) => $p};
    font-weight: 400;
    font-size: 1.4rem;
+   @media screen and (max-width: 550px) {
+      padding: 12rem 0;
+   }
 `;
 
 export const MainButton = styled.button`

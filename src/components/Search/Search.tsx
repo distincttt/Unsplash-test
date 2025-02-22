@@ -23,9 +23,11 @@ export const Search = ({ isHeader }) => {
             onChange={handleChange}
             value={newQuery}
          ></SearchInput>
-         <SearchButtonClose onClick={clearQuery}>
-            <SearchIconClose src={CloseIcon} />
-         </SearchButtonClose>
+         {newQuery && (
+            <SearchButtonClose onClick={clearQuery}>
+               <SearchIconClose src={CloseIcon} />
+            </SearchButtonClose>
+         )}
          <SearchButton onClick={onClick}>Искать</SearchButton>
       </SearchWrapper>
    );

@@ -27,6 +27,12 @@ export const SearchInput = styled.input`
    &::placeholder {
       color: var(--dark-gray-cl);
    }
+
+   @media screen and (max-width: 550px) {
+      &::placeholder {
+         color: var(--gray-bg);
+      }
+   }
 `;
 
 export const SearchIconSearch = styled.img.attrs<{ src: string }>(({ src }) => ({
