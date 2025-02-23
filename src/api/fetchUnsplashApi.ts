@@ -1,3 +1,5 @@
+import { baseUrl } from "./baseUrl";
+
 import { Photos, Response } from "../shared/types";
 
 type fetchUnsplashApiProps = {
@@ -6,6 +8,20 @@ type fetchUnsplashApiProps = {
    firstLoad: boolean;
 };
 
+// Функция для выполнения запроса к Unsplash API
+const fetchUnsplashData = async (query: string, page: number): Promise<Photos> => {
+   const response = await fetch(`${baseUrl}&query=${query}&page=${page}`);
+
+   if (!response.ok) throw new Error("Ошибка запроса к API");
+
+   const jsonResponse: Response = await response.json();
+   return jsonResponse.results.map((photo) => ({
+      full: photo.urls.full,
+      thumb: photo.urls.thumb,
+   }));
+};
+
+// Основная функция с логикой загрузки нескольких страниц
 export const fetchUnsplashApi = async ({
    query,
    page,
@@ -16,20 +32,8 @@ export const fetchUnsplashApi = async ({
    const totalPages = firstLoad ? 5 : 1;
 
    for (let i = 0; i < totalPages; i++) {
-      const response = await fetch(
-         `https://api.unsplash.com/search/photos?client_id=Ip0XA55zY7b7-d19osq1L5btGg-YCeDZVpnnJjXqHxs&query=${query}&page=${nextPage}`
-      );
-      const jsonResponse: Response = await response.json();
-
-      if (!response.ok) throw new Error("error");
-
-      allResults.push(
-         jsonResponse.results.map((photo) => ({
-            full: photo.urls.full,
-            thumb: photo.urls.thumb,
-         }))
-      );
-
+      const photos = await fetchUnsplashData(query, nextPage);
+      allResults.push(photos);
       nextPage++;
    }
 

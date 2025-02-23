@@ -4,12 +4,12 @@ import { useAppDispatch, useAppSelector } from "./redux-hooks";
 
 import { fetchPhotos, saveQuery } from "../../redux/photoSlice";
 
-export const useSearch = (): [
-   string,
-   React.ChangeEventHandler<HTMLInputElement>,
-   (e: React.MouseEvent<HTMLButtonElement>) => void,
-   () => void
-] => {
+export const useSearch = (): {
+   newQuery: string;
+   handleChange: React.ChangeEventHandler<HTMLInputElement>;
+   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+   clearQuery: () => void;
+} => {
    const { query } = useAppSelector((state) => state.photoSlice);
    const [newQuery, setNewQuery] = useState(query);
    const dispatch = useAppDispatch();
@@ -33,5 +33,5 @@ export const useSearch = (): [
       setNewQuery(""); // Очищаем локальное состояние
    };
 
-   return [newQuery, handleChange, onClick, clearQuery];
+   return { newQuery, handleChange, onClick, clearQuery };
 };

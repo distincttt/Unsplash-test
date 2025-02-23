@@ -2,7 +2,7 @@ import { buildCreateSlice, asyncThunkCreator, PayloadAction } from "@reduxjs/too
 
 import { fetchUnsplashApi } from "../api/fetchUnsplashApi";
 
-import { Photos } from "../shared/types";
+import { Photos } from "../shared";
 
 const createAppSlice = buildCreateSlice({
    creators: { asyncThunk: asyncThunkCreator },
@@ -33,6 +33,7 @@ const photoSlice = createAppSlice({
       fetchPhotos: create.asyncThunk(fetchUnsplashApi, {
          pending: (state) => {
             state.loading = true;
+            state.error = "";
          },
          fulfilled: (state, action) => {
             state.loading = false;
@@ -45,7 +46,7 @@ const photoSlice = createAppSlice({
          },
          rejected: (state) => {
             state.loading = false;
-            state.error = "Server error";
+            state.error = "Ошибка сервера";
          },
       }),
       saveQuery: create.reducer((state, action: PayloadAction<string>) => {

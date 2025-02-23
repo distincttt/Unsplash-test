@@ -1,0 +1,1 @@
+export { fetchUnsplashApi } from "./fetchUnsplashApi";
