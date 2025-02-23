@@ -8,7 +8,7 @@ export const App = () => {
    const { query } = useAppSelector((state) => state.photoSlice);
    return (
       <>
-         {query !== undefined ? <Header /> : <Search />}
+         {query ? <Header /> : <Search />}
          <Main />
       </>
    );

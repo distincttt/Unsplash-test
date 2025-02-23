@@ -1,14 +1,25 @@
-import { buildCreateSlice, asyncThunkCreator } from "@reduxjs/toolkit";
+import { buildCreateSlice, asyncThunkCreator, PayloadAction } from "@reduxjs/toolkit";
 
-import { fetchPhotosThunk } from "../api/fetchUnsplashApi";
+import { fetchUnsplashApi } from "../api/fetchUnsplashApi";
+
+import { Photos } from "../shared/types";
 
 const createAppSlice = buildCreateSlice({
    creators: { asyncThunk: asyncThunkCreator },
 });
 
-const initialState = {
+type InitialState = {
+   photos: Photos[];
+   query: string;
+   page: number;
+   error: string;
+   loading: boolean;
+   firstLoad: boolean;
+};
+
+const initialState: InitialState = {
    photos: [],
-   query: undefined,
+   query: "",
    page: 1,
    error: "",
    loading: false,
@@ -19,16 +30,16 @@ const photoSlice = createAppSlice({
    name: "photo",
    initialState,
    reducers: (create) => ({
-      fetchPhotos: create.asyncThunk(fetchPhotosThunk, {
+      fetchPhotos: create.asyncThunk(fetchUnsplashApi, {
          pending: (state) => {
             state.loading = true;
          },
          fulfilled: (state, action) => {
             state.loading = false;
             state.error = "";
-            action.payload.photos[0].length
-               ? state.photos.push(...action.payload.photos.filter((photoRaw) => photoRaw.length))
-               : (state.error = "К сожалению, поиск не дал результатов");
+            if (action.payload.photos[0].length)
+               state.photos.push(...action.payload.photos.filter((photoRaw) => photoRaw.length));
+            else state.error = "К сожалению, поиск не дал результатов";
             state.page = action.payload.newPage;
             state.firstLoad = action.payload.firstLoad;
          },
@@ -37,7 +48,7 @@ const photoSlice = createAppSlice({
             state.error = "Server error";
          },
       }),
-      saveQuery: create.reducer((state, action) => {
+      saveQuery: create.reducer((state, action: PayloadAction<string>) => {
          state.query = action.payload;
          state.page = 1;
          state.photos = []; // Очищаем старые фото

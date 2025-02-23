@@ -37,12 +37,13 @@ export const MainButton = styled.button`
    }
 `;
 
-export const Loader = styled.span`
+export const Loader = styled.span<{ $mt: string }>`
    width: 48px;
    height: 48px;
    border-radius: 50%;
    position: relative;
    animation: rotate 1s linear infinite;
+   margin-top: ${({ $mt }) => $mt};
 
    &::before,
    &::after {
@@ -60,4 +61,8 @@ export const Loader = styled.span`
       animation: prixClipFix 2s linear infinite, rotate 0.5s linear infinite reverse;
       inset: 6px;
    }
+`;
+
+export const Error = styled.span<{ $mt: string }>`
+   margin-top: ${({ $mt }) => $mt};
 `;

@@ -2,7 +2,9 @@ import { useState } from "react";
 
 import { Blur, ImgCard } from "./CardStyle";
 
-export const Card = ({ photos }) => {
+import { Photos } from "../../shared/types";
+
+export const Card = ({ photos }: { photos: Photos }) => {
    const [activeIndex, setActiveIndex] = useState<number | null>(null);
    return (
       <>
