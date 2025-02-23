@@ -12,4 +12,4 @@ bun run dev
 
 ## Link to deployed app
 
-unsplash-test-iota.vercel.app
+https://unsplash-test-iota.vercel.app/
